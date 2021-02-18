@@ -1,0 +1,65 @@
+# ======================================
+# RabbitMQ broker section
+# ======================================
+
+## Related doc guide: https://rabbitmq.com/configure.html. See
+## https://rabbitmq.com/documentation.html for documentation ToC.
+
+## Debug Logging
+## ==============
+log.default.level = ${LOG_LEVEL}
+
+## Networking
+## ====================
+##
+## Related doc guide: https://rabbitmq.com/networking.html.
+##
+
+## Set to 'true' to perform reverse DNS lookups when accepting a
+## connection. rabbitmqctl and management UI will then display hostnames
+## instead of IP addresses. Default value is `false`.
+##
+reverse_dns_lookups = false
+
+## Memory Configuration
+## ======================
+
+vm_memory_high_watermark.absolute = ${RABBITMQ_VM_MEMORY_ABSOLUTE_HIGH_WATERMARK}
+
+##
+## Clustering
+## =====================
+##
+# cluster_partition_handling = ignore
+
+## pause_if_all_down strategy require additional configuration
+# cluster_partition_handling = pause_if_all_down
+
+## Recover strategy. Can be either 'autoheal' or 'ignore'
+# cluster_partition_handling.pause_if_all_down.recover = ignore
+
+## Mirror sync batch size, in messages. Increasing this will speed
+## up syncing but total batch size in bytes must not exceed 2 GiB.
+## Available in RabbitMQ 3.6.0 or later.
+##
+# mirroring_sync_batch_size = 4096
+
+## DNS-based peer discovery. This backend will list A records
+## of the configured hostname and perform reverse lookups for
+## the addresses returned.
+
+## This node's type can be configured. If you are not sure
+## what node type to use, always use 'disc'.
+cluster_formation.node_type = disc
+
+## Interval (in milliseconds) at which we send keepalive messages
+## to other cluster members. Note that this is not the same thing
+## as net_ticktime; missed keepalive messages will not cause nodes
+## to be considered down.
+##
+cluster_keepalive_interval = 10000
+
+## Cluster discovery timeout management
+## Extended to support DNS update timing
+cluster_formation.discovery_retry_limit = 50
+cluster_formation.discovery_retry_interval = 2500

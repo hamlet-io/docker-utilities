@@ -1,0 +1,54 @@
+version: "3"
+
+networks:
+  default:
+
+services:
+  rabbit_a:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - RABBITMQ_NODENAME=rabbit@rabbit_a.cluster.local
+      - APP_USER_ID=rabid
+      - APP_USER_PASSWORD=password
+      - APP_USER_VHOST=mine
+    env_file:
+      - .env/local.env
+    ports:
+      - "15672:15672"
+    networks:
+      default:
+        aliases:
+          - rabbit_a.cluster.local
+          - rabbit.cluster.local
+
+  rabbit_b:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - RABBITMQ_NODENAME=rabbit@rabbit_b.cluster.local
+      - RUN_BACKGROUND_TASKS=false
+    env_file:
+      - .env/local.env
+    networks:
+      default:
+        aliases:
+          - rabbit_b.cluster.local
+          - rabbit.cluster.local
+
+  rabbit_c:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - RABBITMQ_NODENAME=rabbit@rabbit_c.cluster.local
+      - RUN_BACKGROUND_TASKS=false
+    env_file:
+      - .env/local.env
+    networks:
+      default:
+        aliases:
+          - rabbit_c.cluster.local
+          - rabbit.cluster.local
